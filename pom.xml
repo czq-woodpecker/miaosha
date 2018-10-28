@@ -7,6 +7,7 @@
     <groupId>com.czq.woodpecker</groupId>
     <artifactId>miaosha_1</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
 
     <!-- Inherit defaults from Spring Boot -->
@@ -84,6 +85,39 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
+        <!--打war包时用-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
     </dependencies>
+
+    <!--打war的插件-->
+    <!--<build>-->
+        <!--&lt;!&ndash;打出来的war包的名字&ndash;&gt;-->
+        <!--<finalName>${project.artifactId}</finalName>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
+
+    <!--打jar包的插件-->
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

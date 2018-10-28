@@ -26,8 +26,6 @@ import java.util.List;
 @RequestMapping("/miaosha")
 public class MiaoshaController {
     @Autowired
-    MiaoshaUserService userService;
-    @Autowired
     GoodsService goodsService;
     @Autowired
     RedisService redisService;

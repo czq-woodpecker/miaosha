@@ -31,10 +31,16 @@ public class GoodsController {
     MiaoshaUserService userService;
     @Autowired
     GoodsService goodsService;
+    private static final Logger logger = LoggerFactory.getLogger(GoodsController.class);
 
 
+    /*
+        1000 * 10
+        QPS:527
+     */
     @RequestMapping("/to_list")
     public String list(Model model,MiaoshaUser user){
+        logger.info(user+"====");
         model.addAttribute("user",user);
         //查询产品列表
         List<GoodsVo> goodsList = goodsService.listGoodsVo();
