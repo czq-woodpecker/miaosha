@@ -8,6 +8,7 @@ import java.util.Date;
  */
 public class MiaoshaUser {
     private Long id;
+    private String mobile;
     private String nickname;
     private String password;
     private String salt;
@@ -80,10 +81,19 @@ public class MiaoshaUser {
         this.loginCount = loginCount;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     @Override
     public String toString() {
         return "MiaoshaUser{" +
                 "id=" + id +
+                ", mobile='" + mobile + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", password='" + password + '\'' +
                 ", salt='" + salt + '\'' +

@@ -5,6 +5,7 @@ import com.imooc.miaosha.domain.MiaoshaUser;
 import com.imooc.miaosha.exception.GlobleException;
 import com.imooc.miaosha.redis.MiaoshaUserKey;
 import com.imooc.miaosha.redis.RedisService;
+import com.imooc.miaosha.redis.UserKey;
 import com.imooc.miaosha.result.CodeMsg;
 import com.imooc.miaosha.util.MD5Util;
 import com.imooc.miaosha.util.UUIDUtil;
@@ -31,7 +32,37 @@ public class MiaoshaUserService {
     public static final String COOKIE_NAME_TOKEN = "token";
 
     public MiaoshaUser getById(long id){
-        return miaoshaUserDao.getById(id);
+        //取缓存
+        MiaoshaUser user = redisService.get(MiaoshaUserKey.getById, "" + id, MiaoshaUser.class);
+        if(user != null){
+            return user;
+        }
+        //取数据库
+        user = miaoshaUserDao.getById(id);
+        //写缓存
+        if(user != null){
+            redisService.set(MiaoshaUserKey.getById, "" + id, user);
+        }
+        return user;
+    }
+
+    // http://blog.csdn.net/tTU1EvLDeLFq5btqiK/article/details/78693323
+    public boolean updatePassword(String token,long id,String password){
+        //取user
+        MiaoshaUser user = getById(id);
+        if(user == null){
+            throw new GlobleException(CodeMsg.MOBILE_NOT_EXIST);
+        }
+        //更新数据库
+        MiaoshaUser toBeUpdateUser = new MiaoshaUser();
+        toBeUpdateUser.setId(user.getId());
+        toBeUpdateUser.setPassword(MD5Util.formPassToDBPass(password,user.getSalt()));
+        miaoshaUserDao.update(toBeUpdateUser);
+        //处理缓存
+        redisService.delete(MiaoshaUserKey.getById,""+id);
+        user.setPassword(toBeUpdateUser.getPassword());
+        redisService.set(MiaoshaUserKey.token,token,user);
+        return true;
     }
 
     public String login(HttpServletResponse response, LoginVo loginVo) {

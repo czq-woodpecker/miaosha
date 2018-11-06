@@ -5,7 +5,9 @@ package com.imooc.miaosha.redis;
  * @Date: 2018/8/25 19:03
  */
 public class OrderKey extends BasePrefix {
-    public OrderKey(int expireSeconds, String prefix) {
-        super(expireSeconds, prefix);
+    public OrderKey(String prefix) {
+        super(prefix);
     }
+
+    public static OrderKey getMiaoshaOrderByUidGid = new OrderKey("moug");
 }

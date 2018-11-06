@@ -1,13 +1,13 @@
 package com.imooc.miaosha.redis;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+
+
+
 
 /**
  * @author: woodpecker
@@ -98,6 +98,27 @@ public class RedisService {
     }
 
     /**
+     * 判断一个key是否存在
+     * @param prefix
+     * @param key
+     * @return
+     */
+    public boolean delete(KeyPrefix prefix,String key){
+        Jedis jedis = null;
+
+        try{
+            jedis = jedisPool.getResource();
+            //生成真正的key
+            String realKey = prefix.getPrefix() + key;
+            long result = jedis.del(realKey);//////////
+            return result > 0;
+        }finally {
+            //从连接池拿出来后用完要放回去
+            returnToPool(jedis);
+        }
+    }
+
+    /**
      * 增加值
      * @param prefix
      * @param key
@@ -154,6 +175,7 @@ public class RedisService {
             return JSON.toJSONString(value);
         }
     }
+
 
     private <T> T stringToBean(String str,Class<T> clazz) {
         if(str == null || str.length() <= 0 || clazz == null){

@@ -39,18 +39,18 @@ public class LoginController {
     @RequestMapping("/do_login")
     @ResponseBody
     public Result<String> doLogin(HttpServletResponse response,@Valid LoginVo loginVo){
-        //参数校验
-//        String passInput = loginVo.getPassword();
-//        String mobile = loginVo.getMobile();
-//        if(StringUtils.isEmpty(passInput)){
-//            return Result.error(CodeMsg.PASSWORS_EMPTY);
-//        }
-//        if(StringUtils.isEmpty(mobile)){
-//            return Result.error(CodeMsg.MOBILE_EMPTY);
-//        }
-//        if(!ValidatotUtil.isMobile(mobile)){
-//            return Result.error(CodeMsg.MOBILE_ERROR);
-//        }
+        //参数校验:批量生产用户时由于没有手机号需要注释掉这段
+        String passInput = loginVo.getPassword();
+        String mobile = loginVo.getMobile();
+        if(StringUtils.isEmpty(passInput)){
+            return Result.error(CodeMsg.PASSWORS_EMPTY);
+        }
+        if(StringUtils.isEmpty(mobile)){
+            return Result.error(CodeMsg.MOBILE_EMPTY);
+        }
+        if(!ValidatotUtil.isMobile(mobile)){
+            return Result.error(CodeMsg.MOBILE_ERROR);
+        }
         //登录
         String token = userService.login(response,loginVo);
         return Result.success(token);

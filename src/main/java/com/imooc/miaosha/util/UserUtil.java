@@ -25,7 +25,7 @@ public class UserUtil {
 		//生成用户
 		for(int i=0;i<count;i++) {
 			MiaoshaUser user = new MiaoshaUser();
-			user.setId(13000000000L+i);
+			user.setMobile(13600000000L+i+"");
 			user.setLoginCount(1);
 			user.setNickname("user"+i);
 			user.setRegisterDate(new Date());
@@ -34,9 +34,9 @@ public class UserUtil {
 			users.add(user);
 		}
 		System.out.println("create user");
-//		//插入数据库
+		//插入数据库
 //		Connection conn = DBUtil.getConn();
-//		String sql = "insert into miaosha_user(login_count, nickname, register_date, salt, password, id)values(?,?,?,?,?,?)";
+//		String sql = "insert into miaosha_user(login_count, nickname, register_date, salt, password, mobile)values(?,?,?,?,?,?)";
 //		PreparedStatement pstmt = conn.prepareStatement(sql);
 //		for(int i=0;i<users.size();i++) {
 //			MiaoshaUser user = users.get(i);
@@ -45,7 +45,7 @@ public class UserUtil {
 //			pstmt.setTimestamp(3, new Timestamp(user.getRegisterDate().getTime()));
 //			pstmt.setString(4, user.getSalt());
 //			pstmt.setString(5, user.getPassword());
-//			pstmt.setLong(6, user.getId());
+//			pstmt.setString(6, user.getMobile());
 //			pstmt.addBatch();
 //		}
 //		pstmt.executeBatch();
@@ -68,7 +68,7 @@ public class UserUtil {
 			co.setRequestMethod("POST");
 			co.setDoOutput(true);
 			OutputStream out = co.getOutputStream();
-			String params = "mobile="+user.getId()+"&password="+MD5Util.inputPassFormPass("123456");
+			String params = "mobile="+user.getMobile()+"&password="+MD5Util.inputPassFormPass("123456");
 			out.write(params.getBytes());
 			out.flush();
 			InputStream inputStream = co.getInputStream();
@@ -83,13 +83,12 @@ public class UserUtil {
 			String response = new String(bout.toByteArray());
 			JSONObject jo = JSON.parseObject(response);
 			String token = jo.getString("data");
-			System.out.println("create token : " + user.getId());
+			System.out.println("user: " + user.getMobile()+" token:"+token);
 			
-			String row = user.getId()+","+token;
+			String row = user.getMobile()+","+token;
 			raf.seek(raf.length());
 			raf.write(row.getBytes());
 			raf.write("\r\n".getBytes());
-			System.out.println("write to file : " + user.getId());
 		}
 		raf.close();
 		
@@ -97,6 +96,6 @@ public class UserUtil {
 	}
 	
 	public static void main(String[] args)throws Exception {
-		createUser(2000);
+		createUser(1500);
 	}
 }
