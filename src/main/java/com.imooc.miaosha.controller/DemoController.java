@@ -1,6 +1,7 @@
 package com.imooc.miaosha.controller;
 
 import com.imooc.miaosha.domain.User;
+import com.imooc.miaosha.rabbitmq.MQSender;
 import com.imooc.miaosha.redis.RedisService;
 import com.imooc.miaosha.redis.UserKey;
 import com.imooc.miaosha.result.CodeMsg;
@@ -23,6 +24,8 @@ public class DemoController {
     UserService userService;
     @Autowired
     RedisService redisService;
+    @Autowired
+    MQSender mqSender;
 
 //    @RequestMapping("/")
 //    @ResponseBody
@@ -84,5 +87,33 @@ public class DemoController {
         return Result.success(true);
     }
 
+//    @RequestMapping("/mq")
+//    @ResponseBody
+//    public Result<String> mq(){
+//        mqSender.send("Hello World!");
+//        return Result.success("hello world");
+//    }
+//
+//    @RequestMapping("/mq/topic")
+//    @ResponseBody
+//    public Result<String> topic(){
+//        mqSender.sendTopic("Hello World!");
+//        return Result.success("hello world");
+//    }
+//
+//    //swagger
+//    @RequestMapping("/mq/fanout")
+//    @ResponseBody
+//    public Result<String> fanout(){
+//        mqSender.sendFanout("Hello World!");
+//        return Result.success("hello world");
+//    }
+//
+//    @RequestMapping("/mq/header")
+//    @ResponseBody
+//    public Result<String> header(){
+//        mqSender.sendHeader("Hello World!");
+//        return Result.success("hello world");
+//    }
 
 }

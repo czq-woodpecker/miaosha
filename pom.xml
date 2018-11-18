@@ -92,6 +92,21 @@
             <!--<scope>provided</scope>-->
         <!--</dependency>-->
 
+        <!--rabbitmq支持-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+
+        <!-- 热部署依赖 -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--&lt;!&ndash;optional=true 依赖不会传递，该项目依赖devtools-->
+            <!--之后依赖该项目的项目如果想要使用devtools，需要重新导入&ndash;&gt;-->
+            <!--<optional>true</optional>-->
+        <!--</dependency>-->
     </dependencies>
 
     <!--打war的插件-->
